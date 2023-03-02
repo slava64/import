@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "site".
+ * This is the model class for table "service".
  *
  * @property int $id
  * @property string $name
@@ -17,14 +17,14 @@ use Yii;
  * @property Article[] $articles
  * @property Category[] $categories
  */
-class Site extends \yii\db\ActiveRecord
+class Service extends Base
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'site';
+        return 'service';
     }
 
     /**
@@ -60,7 +60,7 @@ class Site extends \yii\db\ActiveRecord
      */
     public function getArticles()
     {
-        return $this->hasMany(Article::class, ['site_id' => 'id']);
+        return $this->hasMany(Article::class, ['service_id' => 'id']);
     }
 
     /**
@@ -70,6 +70,6 @@ class Site extends \yii\db\ActiveRecord
      */
     public function getCategories()
     {
-        return $this->hasMany(Category::class, ['site_id' => 'id']);
+        return $this->hasMany(Category::class, ['service_id' => 'id']);
     }
 }

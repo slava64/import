@@ -10,12 +10,12 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property int|null $import_id
- * @property int|null $site_id
+ * @property int|null $service_id
  *
  * @property Article[] $articles
- * @property Site $site
+ * @property Service $service
  */
-class Category extends \yii\db\ActiveRecord
+class Category extends Base
 {
     /**
      * {@inheritdoc}
@@ -32,9 +32,9 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['import_id', 'site_id'], 'integer'],
+            [['import_id', 'service_id'], 'integer'],
             [['name'], 'string', 'max' => 50],
-            [['site_id'], 'exist', 'skipOnError' => true, 'targetClass' => Site::class, 'targetAttribute' => ['site_id' => 'id']],
+            [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => Service::class, 'targetAttribute' => ['service_id' => 'id']],
         ];
     }
 
@@ -47,7 +47,8 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'import_id' => 'Import ID',
-            'site_id' => 'Site ID',
+            'service_id' => 'Service ID',
+            'service.name' => 'Service'
         ];
     }
 
@@ -62,12 +63,12 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Site]].
+     * Gets query for [[Service]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSite()
+    public function getService()
     {
-        return $this->hasOne(Site::class, ['id' => 'site_id']);
+        return $this->hasOne(Service::class, ['id' => 'service_id']);
     }
 }

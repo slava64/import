@@ -7,7 +7,7 @@ use yii\db\Migration;
  * Has foreign keys to the tables:
  *
  * - `{{%category}}`
- * - `{{%site}}`
+ * - `{{%service}}`
  */
 class m230302_093725_create_article_table extends Migration
 {
@@ -22,7 +22,7 @@ class m230302_093725_create_article_table extends Migration
             'key2' => $this->string(255),
             'import_id' => $this->integer(),
             'category_id' => $this->integer(),
-            'site_id' => $this->integer(),
+            'service_id' => $this->integer(),
         ]);
 
         // creates index for column `import_id`
@@ -46,24 +46,24 @@ class m230302_093725_create_article_table extends Migration
             'category_id',
             '{{%category}}',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
 
-        // creates index for column `site_id`
+        // creates index for column `service_id`
         $this->createIndex(
-            '{{%idx-article-site_id}}',
+            '{{%idx-article-service_id}}',
             '{{%article}}',
-            'site_id'
+            'service_id'
         );
 
-        // add foreign key for table `{{%site}}`
+        // add foreign key for table `{{%service}}`
         $this->addForeignKey(
-            '{{%fk-article-site_id}}',
+            '{{%fk-article-service_id}}',
             '{{%article}}',
-            'site_id',
-            '{{%site}}',
+            'service_id',
+            '{{%service}}',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
     }
 
@@ -90,15 +90,15 @@ class m230302_093725_create_article_table extends Migration
             '{{%article}}'
         );
 
-        // drops foreign key for table `{{%site}}`
+        // drops foreign key for table `{{%service}}`
         $this->dropForeignKey(
-            '{{%fk-article-site_id}}',
+            '{{%fk-article-service_id}}',
             '{{%article}}'
         );
 
-        // drops index for column `site_id`
+        // drops index for column `service_id`
         $this->dropIndex(
-            '{{%idx-article-site_id}}',
+            '{{%idx-article-service_id}}',
             '{{%article}}'
         );
 

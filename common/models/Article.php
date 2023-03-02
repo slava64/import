@@ -12,12 +12,12 @@ use Yii;
  * @property string|null $key2
  * @property int|null $import_id
  * @property int|null $category_id
- * @property int|null $site_id
+ * @property int|null $service_id
  *
  * @property Category $category
- * @property Site $site
+ * @property Service $service
  */
-class Article extends \yii\db\ActiveRecord
+class Article extends Base
 {
     /**
      * {@inheritdoc}
@@ -34,10 +34,10 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['key'], 'required'],
-            [['import_id', 'category_id', 'site_id'], 'integer'],
+            [['import_id', 'category_id', 'service_id'], 'integer'],
             [['key', 'key2'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['site_id'], 'exist', 'skipOnError' => true, 'targetClass' => Site::class, 'targetAttribute' => ['site_id' => 'id']],
+            [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => Service::class, 'targetAttribute' => ['service_id' => 'id']],
         ];
     }
 
@@ -49,10 +49,12 @@ class Article extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'key' => 'Key',
-            'key2' => 'Key2',
+            'key2' => 'Key translate',
             'import_id' => 'Import ID',
             'category_id' => 'Category ID',
-            'site_id' => 'Site ID',
+            'service_id' => 'Service ID',
+            'category.name' => 'Category',
+            'service.name' => 'Service'
         ];
     }
 
@@ -67,12 +69,12 @@ class Article extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Site]].
+     * Gets query for [[Service]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSite()
+    public function getService()
     {
-        return $this->hasOne(Site::class, ['id' => 'site_id']);
+        return $this->hasOne(Service::class, ['id' => 'service_id']);
     }
 }

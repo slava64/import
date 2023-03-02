@@ -6,7 +6,7 @@ use yii\db\Migration;
  * Handles the creation of table `{{%category}}`.
  * Has foreign keys to the tables:
  *
- * - `{{%site}}`
+ * - `{{%service}}`
  */
 class m230302_093414_create_category_table extends Migration
 {
@@ -19,7 +19,7 @@ class m230302_093414_create_category_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(50)->notNull(),
             'import_id' => $this->integer(),
-            'site_id' => $this->integer(),
+            'service_id' => $this->integer(),
         ]);
 
         // creates index for column `import_id`
@@ -29,21 +29,21 @@ class m230302_093414_create_category_table extends Migration
             'import_id'
         );
 
-        // creates index for column `site_id`
+        // creates index for column `service_id`
         $this->createIndex(
-            '{{%idx-category-site_id}}',
+            '{{%idx-category-service_id}}',
             '{{%category}}',
-            'site_id'
+            'service_id'
         );
 
-        // add foreign key for table `{{%site}}`
+        // add foreign key for table `{{%service}}`
         $this->addForeignKey(
-            '{{%fk-category-site_id}}',
+            '{{%fk-category-service_id}}',
             '{{%category}}',
-            'site_id',
-            '{{%site}}',
+            'service_id',
+            '{{%service}}',
             'id',
-            'CASCADE'
+            'SET NULL'
         );
     }
 
@@ -58,15 +58,15 @@ class m230302_093414_create_category_table extends Migration
             '{{%category}}'
         );
 
-        // drops foreign key for table `{{%site}}`
+        // drops foreign key for table `{{%service}}`
         $this->dropForeignKey(
-            '{{%fk-category-site_id}}',
+            '{{%fk-category-service_id}}',
             '{{%category}}'
         );
 
-        // drops index for column `site_id`
+        // drops index for column `service_id`
         $this->dropIndex(
-            '{{%idx-category-site_id}}',
+            '{{%idx-category-service_id}}',
             '{{%category}}'
         );
 
