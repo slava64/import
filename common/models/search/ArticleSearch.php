@@ -66,8 +66,8 @@ class ArticleSearch extends Article
         $query->andFilterWhere([
             'id' => $this->id,
             'import_id' => $this->import_id,
-            'category_id' => $this->category_id,
-            'service_id' => $this->service_id,
+            'category_id' => $this->getAttribute('category.name'),
+            'service_id' => $this->getAttribute('service.name'),
         ]);
 
         $query->andFilterWhere(['like', 'key', $this->key])

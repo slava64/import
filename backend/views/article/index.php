@@ -24,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <?=Html::beginForm();?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -45,5 +47,23 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <div class="form-group">
+        <?= Html::submitButton('Delete', [
+                'class' => 'btn btn-success',
+                'name' =>'delete', 'value' => '1',
+                'onclick' => "return confirm('Confirm action?')"
+        ]) ?>
+        <?= Html::submitButton('Import', [
+                'class' => 'btn btn-success',
+                'name' =>'import', 'value' => '1',
+                'onclick' => "return confirm('Confirm action?')"
+        ]) ?>
+        <?= Html::submitButton('All import', [
+            'class' => 'btn btn-success',
+            'name' =>'import-all', 'value' => '1',
+            'onclick' => "return confirm('Confirm action?')"
+        ]) ?>
+    </div>
 
+    <?=Html::endForm();?>
 </div>

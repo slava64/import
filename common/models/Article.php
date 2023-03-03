@@ -77,4 +77,20 @@ class Article extends Base
     {
         return $this->hasOne(Service::class, ['id' => 'service_id']);
     }
+
+    public static function findAllArticlesWithImportIsNull(array $ids = [])
+    {
+        $articlesQuery = Article::find()
+            ->select("article.*, service.domain, service.api_url, service.api_username, service.api_key")
+            ->leftJoin("service", "service.id = article.service_id")
+            ->where(['is', 'article.import_id', NULL]);
+        if (!empty($ids)) {
+            $articlesQuery->andWhere(['in', 'article.id', $ids]);
+        }
+        $articles = $articlesQuery->asArray()->all();
+        if ($articles) {
+            return $articles;
+        }
+        return [];
+    }
 }

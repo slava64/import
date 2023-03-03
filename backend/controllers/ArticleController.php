@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use common\models\Article;
+use common\models\ArticleDelete;
+use common\models\ArticleSelection;
 use common\models\form\ImportKeysForm;
 use common\models\search\ArticleSearch;
 use yii\web\Controller;
@@ -39,6 +41,13 @@ class ArticleController extends Controller
      */
     public function actionIndex()
     {
+        if ($this->request->isPost) {
+            $articleSelection = new ArticleSelection($this->request->post());
+            if ($articleSelection->init()) {
+                return $this->redirect(['index']);
+            }
+        }
+
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 

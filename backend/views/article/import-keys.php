@@ -21,6 +21,15 @@ $this->params['breadcrumbs'][] = 'Import Keys';
 
         <?= $form->field($model, 'keys')->textarea(['rows' => 5]) ?>
 
+        <?= $form->field($model, 'separator')->widget(Select2::classname(), [
+            'hideSearch' => true,
+            'data' => \common\models\form\ImportKeysForm::getSeparators(),
+            'options' => ['placeholder' => 'Separator...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]);?>
+
         <?= $form->field($model, 'category_id')->widget(Select2::classname(), [
             'hideSearch' => true,
             'data' => \common\models\Category::getMap(),

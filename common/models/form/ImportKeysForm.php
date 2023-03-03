@@ -12,6 +12,7 @@ class ImportKeysForm extends Model
     public $keys;
     public $category_id;
     public $service_id;
+    public $separator;
 
     /**
      * {@inheritdoc}
@@ -19,9 +20,9 @@ class ImportKeysForm extends Model
     public function rules()
     {
         return [
-            [['keys', 'category_id', 'service_id'], 'required'],
+            [['keys', 'category_id', 'service_id', 'separator'], 'required'],
             [['category_id', 'service_id'], 'integer'],
-            [['keys'], 'string'],
+            [['keys', 'separator'], 'string'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => Service::class, 'targetAttribute' => ['service_id' => 'id']],
         ];
@@ -49,8 +50,13 @@ class ImportKeysForm extends Model
         $newList = [];
         $listKeys = explode("\n", $this->keys);
         for ($i = 0; $i < count($listKeys); $i++) {
-            list($newList[$i]['key'], $newList[$i]['key2']) = explode(";", trim($listKeys[$i]));
+            list($newList[$i]['key'], $newList[$i]['key2']) = explode($this->separator, trim($listKeys[$i]));
         }
         return $newList;
+    }
+
+    public static function getSeparators()
+    {
+        return [',' => ',', ';' => ';', '|' => '|'];
     }
 }
