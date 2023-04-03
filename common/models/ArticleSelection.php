@@ -20,13 +20,33 @@ class ArticleSelection
             return true;
         }
         if ($this->isImport()) {
-            $articles = Article::findAllArticlesWithImportIsNull($this->postData['selection']);
-            WPImport::importPosts($articles);
+            set_time_limit(3600);
 
+            $articles = Article::findAllArticlesWithImportIsNull($this->postData['selection']);
+            if ($this->isFuture()) {
+                WPImport::importFuturePosts(
+                    $articles,
+                    strtotime($this->postData['future_from']),
+                    strtotime($this->postData['future_to'])
+                );
+            } else {
+                WPImport::importPosts($articles);
+            }
             return true;
         }
         if ($this->isImportAll()) {
+            set_time_limit(3600);
+
             $articles = Article::findAllArticlesWithImportIsNull();
+            if ($this->isFuture()) {
+                WPImport::importFuturePosts(
+                    $articles,
+                    strtotime($this->postData['future_from']),
+                    strtotime($this->postData['future_to'])
+                );
+            } else {
+                WPImport::importPosts($articles);
+            }
             return true;
         }
     }
@@ -41,5 +61,9 @@ class ArticleSelection
 
     private function isImportAll() {
         return !empty($this->postData['import-all']);
+    }
+
+    private function isFuture() {
+        return !empty($this->postData['future']);
     }
 }

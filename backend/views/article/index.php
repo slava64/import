@@ -1,6 +1,8 @@
 <?php
 
 use common\models\Article;
+use kartik\date\DatePicker;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -35,9 +37,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'key',
             'key2',
+            [
+                'attribute' => 'link',
+                'format' => 'raw',
+                'value' => function(Article $model) {
+                    if (!empty($model->link)) {
+                        return Html::a(
+                            $model->link,
+                            $model->link,
+                            ['target' => '_blank']
+                        );
+                    }
+                }
+            ],
             'import_id',
             ['attribute' => 'category.name', 'filter' => \common\models\Category::getMap()],
             ['attribute' => 'service.name', 'filter' => \common\models\Service::getMap()],
+            ['attribute' => 'public_at', 'format' => ['date', 'php:d-m-Y H:i:s']],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Article $model, $key, $index, $column) {
@@ -46,6 +62,34 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    <div class="form-group">
+        <label><?= Html::checkbox("future"); ?> Отложенная публикация</label>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Интервал дат отложенной публикация</label>
+        <?= DatePicker::widget([
+        'name' => 'future_from',
+        'value' => date("d-m-Y"),
+        'type' => DatePicker::TYPE_RANGE,
+        'name2' => 'future_to',
+        'value2' => date("d-m-Y"),
+        'pluginOptions' => [
+        'autoclose' => true,
+        'format' => 'dd-mm-yyyy'
+        ]
+        ]);?>
+    </div>
+
+    <!--<div class="form-group">
+        <label class="control-label">10% статей распределить дальше на N кол-во месяцев</label>
+        <?= Select2::widget([
+        'name' => 'future_month',
+        'hideSearch' => true,
+        'data' => [0, 3, 6, 12, 18, 24, 36, 48, 60],
+        ]);?>
+    </div>-->
 
     <div class="form-group">
         <?= Html::submitButton('Delete', [

@@ -50,6 +50,7 @@ class ArticleController extends Controller
 
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->getPagination()->setPageSize(1000);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

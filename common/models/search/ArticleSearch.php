@@ -24,7 +24,7 @@ class ArticleSearch extends Article
     {
         return [
             [['id', 'import_id', 'category_id', 'service_id'], 'integer'],
-            [['key', 'key2', 'service.name', 'category.name'], 'safe'],
+            [['key', 'key2', 'service.name', 'category.name', 'link', 'public_at'], 'safe'],
         ];
     }
 
@@ -66,6 +66,8 @@ class ArticleSearch extends Article
         $query->andFilterWhere([
             'id' => $this->id,
             'import_id' => $this->import_id,
+            'link' => $this->link,
+            'public_at' => $this->public_at,
             'category_id' => $this->getAttribute('category.name'),
             'service_id' => $this->getAttribute('service.name'),
         ]);
